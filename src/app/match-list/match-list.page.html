@@ -1,13 +1,33 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>match-list</ion-title>
+    <ion-title>Matchs</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">match-list</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let match of matchs | async">
+      <ion-label>
+        <ion-text>
+          <strong>Adversaire :</strong> {{ match.adversaire }}
+        </ion-text>
+        <ion-text>
+          <strong>Date :</strong> {{ match.date }}
+        </ion-text>
+        <ion-text>
+          <strong>Score :</strong> {{ match.score }}
+        </ion-text>
+        <ion-text>
+          <strong>Surface :</strong> {{ match.surface }}
+        </ion-text>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['/edit', match.id]">
+          <ion-icon name="create"></ion-icon>
+        </ion-button>
+        <ion-button (click)="onDelete(match.id)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
 </ion-content>

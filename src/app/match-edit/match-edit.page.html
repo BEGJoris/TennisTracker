@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>match-edit</ion-title>
+    <ion-title>Modifier un match</ion-title>
   </ion-toolbar>
 </ion-header>
+@if (match) {
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">match-edit</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<ion-list>
+  <ion-item>
+    <ion-label>Adversaire</ion-label>
+    <ion-input type="text" [(ngModel)]="match.adversaire" placeholder="Nom de l'adversaire"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Date du match</ion-label>
+    <ion-input type="date" [(ngModel)]="match.date"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Surface</ion-label>
+    <ion-select [(ngModel)]="match.surface">
+      <ion-select-option value="terre battue">Terre battue</ion-select-option>
+      <ion-select-option value="gazon">Gazon</ion-select-option>
+      <ion-select-option value="dur">Dur</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Score</ion-label>
+    <ion-input type="text" [(ngModel)]="match.score"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Aces</ion-label>
+    <ion-input type="number" [(ngModel)]="match.aces"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nombre de doubles fautes</ion-label>
+    <ion-input type="number" [(ngModel)]="match.doubleFautes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nombre de points gagnés</ion-label>
+    <ion-input type="number" [(ngModel)]="match.pourcentagePremierService"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Nombre de points gagnés</ion-label>
+    <ion-input type="number" [(ngModel)]="match.pointsGagnes"></ion-input>
+  </ion-item>
+</ion-list>
+<ion-button (click)="onUpdate()">Mettre à jour</ion-button>
+}
+<ion-text *ngIf="change">Les changements ont bien été enregistrés</ion-text>

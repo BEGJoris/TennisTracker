@@ -1,13 +1,46 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>match-create</ion-title>
+    <ion-title>Ajouter un match</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">match-create</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <ion-item>
+      <ion-label>Adversaire</ion-label>
+      <ion-input type="text" [(ngModel)]="match.adversaire"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Date du match</ion-label>
+      <ion-input type="date" [(ngModel)]="match.date"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Surface</ion-label>
+      <ion-select [(ngModel)]="match.surface">
+        <ion-select-option value="terre battue">Terre battue</ion-select-option>
+        <ion-select-option value="gazon">Gazon</ion-select-option>
+        <ion-select-option value="dur">Dur</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Score</ion-label>
+      <ion-input type="text" [(ngModel)]="match.score"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Aces</ion-label>
+      <ion-input type="number" [(ngModel)]="match.aces"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Double Fautes</ion-label>
+      <ion-input type="number" [(ngModel)]="match.doubleFautes"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Pourcentage de premier service</ion-label>
+      <ion-input type="number" [(ngModel)]="match.pourcentagePremierService"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Points gagnés</ion-label>
+      <ion-input type="number" [(ngModel)]="match.pointsGagnes"></ion-input>
+    </ion-item>
+  </ion-list>
+  <ion-button (click)="onCreate()">Ajouter le match</ion-button>
 </ion-content>

@@ -15,13 +15,14 @@ const routes: Routes = [
     loadChildren: () => import('./match-list/match-list.module').then( m => m.MatchListPageModule)
   },
   {
-    path: 'match-edit',
+    path: 'edit/:id',
     loadChildren: () => import('./match-edit/match-edit.module').then( m => m.MatchEditPageModule)
   },
   {
     path: 'match-create',
     loadChildren: () => import('./match-create/match-create.module').then( m => m.MatchCreatePageModule)
-  }
+  },
+
 ];
 @NgModule({
   imports: [
