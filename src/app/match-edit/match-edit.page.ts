@@ -28,7 +28,7 @@ onUpdate() {
     this.change = true
     setTimeout(() => {
       this.change = false
-      this._router.navigateByUrl('/list')
+      this._router.navigateByUrl('/tabs/match-list')
 
     },3000)
   })
