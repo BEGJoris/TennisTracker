@@ -16,8 +16,16 @@ const routes: Routes = [
         loadChildren: () => import('../match-create/match-create.module').then(m => m.MatchCreatePageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'stats',
+        loadChildren: () => import('../statistics/statistics.module').then(m => m.StatisticsPageModule)
+      },
+      {
+        path: 'home',
+        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+      },
+      {
+        path:'about',
+        loadChildren: () => import('../about/about.module').then(m => m.AboutPageModule)
       },
       {
         path: '',

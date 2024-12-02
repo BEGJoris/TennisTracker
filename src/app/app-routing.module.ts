@@ -22,6 +22,14 @@ const routes: Routes = [
     path: 'match-create',
     loadChildren: () => import('./match-create/match-create.module').then( m => m.MatchCreatePageModule)
   },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./statistics/statistics.module').then( m => m.StatisticsPageModule)
+  },
+  {
+    path: 'about',
+    loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
 
 ];
 @NgModule({
