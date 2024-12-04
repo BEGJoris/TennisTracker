@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatchService} from "../services/match.service";
 import {Match} from "../models/match.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Geolocation} from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-match-create',
@@ -10,6 +11,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class MatchCreatePage implements OnInit{
   public matchForm :FormGroup
+  location: { latitude: number; longitude: number } | null = null;
   constructor(private _matchService: MatchService,
               private _formBuilder: FormBuilder) {
     this.matchForm = this._formBuilder.group({
@@ -28,6 +30,17 @@ export class MatchCreatePage implements OnInit{
 
   }
 
+  async getCurrentLocation() {
+    try {
+      const coordinates = await Geolocation.getCurrentPosition();
+      this.location = {
+        latitude: coordinates.coords.latitude,
+        longitude: coordinates.coords.longitude,
+      };
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la position', error);
+    }
+  }
   onSubmit(): void {
     if(this.matchForm.value.id) {
       this._matchService.updateMatch(this.matchForm.value)

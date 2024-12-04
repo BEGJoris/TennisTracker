@@ -1,0 +1,21 @@
+ion-card-title {
+  color: #4caf50; /* Vert Wimbledon */
+  // TODO : Faire des thèmes pour chaque grand chelem
+  font-weight: bold;
+}
+
+ion-card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+ion-item {
+  --highlight-color-focused: #4caf50;
+  margin-bottom: 10px;
+}
+
+.location-display {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #555;
+}
