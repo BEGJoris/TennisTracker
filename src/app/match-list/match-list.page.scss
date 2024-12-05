@@ -1,0 +1,24 @@
+ion-card-title {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+ion-card-subtitle {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+ion-card-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+ion-card-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+ion-button {
+  --padding-start: 10px;
+  --padding-end: 10px;
+}

@@ -3,31 +3,33 @@
     <ion-title>Matchs</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+
+<ion-content class="ion-padding">
+
   <ion-list>
-    <ion-item *ngFor="let match of matchs | async">
-      <ion-label>
-        <ion-text>
-          <strong>Adversaire :</strong> {{ match.adversaire }}
-        </ion-text>
-        <ion-text>
-          <strong>Date :</strong> {{ match.date }}
-        </ion-text>
-        <ion-text>
-          <strong>Score :</strong> {{ match.score }}
-        </ion-text>
-        <ion-text>
-          <strong>Surface :</strong> {{ match.surface }}
-        </ion-text>
-      </ion-label>
-      <ion-buttons slot="end">
-        <ion-button [routerLink]="['/edit', match.id]">
-          <ion-icon name="create"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onDelete(match.id)">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+    <ion-card *ngFor="let match of matchs | async">
+      <ion-card-header>
+        <ion-card-title>{{ match.adversaire }}</ion-card-title>
+        <ion-card-subtitle>
+          Date : {{ match.date }}
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Score :</strong> {{ match.score }}</p>
+        <p><strong>Surface :</strong> {{ match.surface }}</p>
+      </ion-card-content>
+      <ion-footer>
+        <ion-buttons slot="end">
+          <ion-button color="primary" [routerLink]="['/edit', match.id]">
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button color="danger" (click)="onDelete(match.id)">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-footer>
+    </ion-card>
   </ion-list>
+
 </ion-content>
