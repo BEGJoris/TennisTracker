@@ -1,0 +1,29 @@
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #3c763d; /* Vert Wimbledon */
+}
+
+.hero p {
+  font-size: 1rem;
+  color: #555;
+}
+
+ion-card {
+  text-align: center;
+  --background: #f9f9f9;
+}
+
+ion-card-title {
+  font-size: 1.1rem;
+}
+
+ion-icon {
+  margin-top: 0.5rem;
+  color: var(--ion-color-primary);
+}

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Match} from "../models/match.model";
+import {MatchService} from "../services/match.service";
+import {Observable, take} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+  recentMatches$!: Observable<Match[]>
+  loading$!:Observable<boolean>
+
+  constructor(private _matchService: MatchService) {
+  }
 
   ngOnInit() {
+    this._matchService.getRecentMatches()
+    this.recentMatches$ = this._matchService.matchs$;
+    this.loading$ = this._matchService.loading$
   }
 
 }
