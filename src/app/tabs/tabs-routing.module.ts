@@ -16,7 +16,11 @@ const routes: Routes = [
         loadChildren: () => import('../match-create/match-create.module').then(m => m.MatchCreatePageModule)
       },
       {
-        path: 'stats',
+        path: 'match-list/edit/:id',
+        loadChildren: () => import('../match-edit/match-edit.module').then( m => m.MatchEditPageModule)
+      },
+      {
+        path: 'statistics',
         loadChildren: () => import('../statistics/statistics.module').then(m => m.StatisticsPageModule)
       },
       {
