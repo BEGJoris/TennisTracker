@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../match-list/match-list.module').then(m => m.MatchListPageModule)
       },
       {
+        path:'match-list/:id',
+        loadChildren: () => import('../single-match/single-match.module').then(m => m.SingleMatchPageModule)
+      },
+      {
         path: 'match-create',
         loadChildren: () => import('../match-create/match-create.module').then(m => m.MatchCreatePageModule)
       },
@@ -31,6 +35,7 @@ const routes: Routes = [
         path:'about',
         loadChildren: () => import('../about/about.module').then(m => m.AboutPageModule)
       },
+
       {
         path: '',
         redirectTo: '/tabs/match-list',
