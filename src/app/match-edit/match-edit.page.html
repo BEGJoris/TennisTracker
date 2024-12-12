@@ -1,48 +1,110 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/match-list"></ion-back-button>
+    </ion-buttons>
     <ion-title>Modifier un match</ion-title>
   </ion-toolbar>
 </ion-header>
-@if (match) {
 
-<ion-list>
-  <ion-item>
-    <ion-label>Adversaire</ion-label>
-    <ion-input type="text" [(ngModel)]="match.adversaire" placeholder="Nom de l'adversaire"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Date du match</ion-label>
-    <ion-input type="date" [(ngModel)]="match.date"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Surface</ion-label>
-    <ion-select [(ngModel)]="match.surface">
-      <ion-select-option value="terre battue">Terre battue</ion-select-option>
-      <ion-select-option value="gazon">Gazon</ion-select-option>
-      <ion-select-option value="dur">Dur</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label>Score</ion-label>
-    <ion-input type="text" [(ngModel)]="match.score"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Aces</ion-label>
-    <ion-input type="number" [(ngModel)]="match.aces"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Nombre de doubles fautes</ion-label>
-    <ion-input type="number" [(ngModel)]="match.doubleFautes"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Nombre de points gagnés</ion-label>
-    <ion-input type="number" [(ngModel)]="match.pourcentagePremierService"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Nombre de points gagnés</ion-label>
-    <ion-input type="number" [(ngModel)]="match.pointsGagnes"></ion-input>
-  </ion-item>
-</ion-list>
-<ion-button (click)="onUpdate()">Mettre à jour</ion-button>
-}
-<ion-text *ngIf="change">Les changements ont bien été enregistrés</ion-text>
+<ion-content class="ion-padding">
+  @if (match) {
+  <ng-container>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Informations du match</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Adversaire</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="match.adversaire"
+              placeholder="Nom de l'adversaire">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Date du match</ion-label>
+            <ion-datetime
+              presentation="date"
+              [(ngModel)]="match.date">
+            </ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Surface</ion-label>
+            <ion-select [(ngModel)]="match.surface">
+              <ion-select-option value="terre battue">Terre battue</ion-select-option>
+              <ion-select-option value="gazon">Gazon</ion-select-option>
+              <ion-select-option value="dur">Dur</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Score</ion-label>
+            <ion-input
+              type="text"
+              [(ngModel)]="match.score">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Statistiques</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Aces</ion-label>
+            <ion-input
+              type="number"
+              [(ngModel)]="match.aces">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Doubles fautes</ion-label>
+            <ion-input
+              type="number"
+              [(ngModel)]="match.doubleFautes">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">% Premier Service</ion-label>
+            <ion-input
+              type="number"
+              [(ngModel)]="match.pourcentagePremierService">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Points gagnés</ion-label>
+            <ion-input
+              type="number"
+              [(ngModel)]="match.pointsGagnes">
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button expand="full" color="success" (click)="onUpdate()">
+      <ion-icon name="save-outline" slot="start"></ion-icon>
+      Mettre à jour
+    </ion-button>
+
+    <ion-text color="success" *ngIf="change" class="ion-margin-top">
+      <p style="text-align: center; margin-top: 1rem;">
+        Les changements ont bien été enregistrés !
+      </p>
+    </ion-text>
+  </ng-container>
+  }
+  @else{
+  <ng-template>
+    <ion-spinner name="crescent"></ion-spinner>
+    <p style="text-align: center; margin-top: 1rem;">Chargement des données...</p>
+  </ng-template>
+  }
+</ion-content>
