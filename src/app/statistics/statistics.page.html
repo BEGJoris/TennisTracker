@@ -1,13 +1,81 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>statistics</ion-title>
+    <ion-title>Statistiques</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">statistics</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Statistiques globales</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-chip color="success">
+              <ion-icon name="trophy-outline"></ion-icon>
+              <ion-label>Matchs joués</ion-label>
+            </ion-chip>
+            <h2>{{ totalMatchs }}</h2>
+          </ion-col>
+          <ion-col size="6">
+            <ion-chip color="primary">
+              <ion-icon name="stats-chart-outline"></ion-icon>
+              <ion-label>Victoire (%)</ion-label>
+            </ion-chip>
+            <h2>{{ victoirePourcentage }}%</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-chip color="warning">
+              <ion-icon name="tennisball-outline"></ion-icon>
+              <ion-label>Total Aces</ion-label>
+            </ion-chip>
+            <h2>{{ totalAces }}</h2>
+          </ion-col>
+          <ion-col size="6">
+            <ion-chip color="danger">
+              <ion-icon name="close-circle-outline"></ion-icon>
+              <ion-label>Double fautes</ion-label>
+            </ion-chip>
+            <h2>{{ totalDoubleFautes }}</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Performances</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-progress-bar value="{{ pourcentagePremierService / 100 }}" color="tertiary"></ion-progress-bar>
+      <p>Pourcentage de 1er service : {{ pourcentagePremierService }}%</p>
+      <ion-progress-bar value="{{ pointsGagnes / 100 }}" color="success"></ion-progress-bar>
+      <p>Points gagnés : {{ pointsGagnes }}%</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Derniers matchs</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let match of derniersMatchs | async">
+          <ion-label>
+            <h3>{{ match.adversaire }}</h3>
+            <p>{{ match.date }} - {{ match.surface }}</p>
+          </ion-label>
+          <ion-badge color="success" *ngIf="match.score">V</ion-badge>
+          <ion-badge color="danger" *ngIf="!match.score">D</ion-badge>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
