@@ -14,7 +14,7 @@
       <ion-card-title>Informations du match</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list [formGroup]="matchForm">
+       <ion-list [formGroup]="mainForm">
         <ion-item>
           <ion-label position="floating">Adversaire</ion-label>
           <ion-input type="text" formControlName="adversaire"></ion-input>
@@ -34,10 +34,6 @@
             <ion-select-option value="dur">Dur</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-item>
-          <ion-label position="floating">Score</ion-label>
-          <ion-input type="text" formControlName="score"></ion-input>
-        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
@@ -46,7 +42,7 @@
       <ion-card-title>Statistiques</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list [formGroup]="matchForm">
+      <ion-list [formGroup]="mainForm">
         <ion-item>
           <ion-label position="floating">Aces</ion-label>
           <ion-input type="number" formControlName="aces"></ion-input>
@@ -66,27 +62,88 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Résultat</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list [formGroup]="resultatForm">
+        <ion-item>
+          <ion-label position="floating">Issue du match</ion-label>
+          <ion-select [formControl]="issueCtrl">
+            <ion-select-option value="victoire">Victoire</ion-select-option>
+            <ion-select-option value="défaite">Défaite</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Forfait</ion-label>
+          <ion-toggle [formControl]="forfaitCtrl"></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Nombre de sets gagnants</ion-label>
+          <ion-input type="number" [formControl]="setsCtrl"></ion-input>
+        </ion-item>
+        @if(showScoreForms$ | async){
+        <ion-item>
+          <ion-list>
+            <ion-item [formGroup]="scoreForm1!">
+              <ion-label position="floating">Set 1</ion-label>
+              <ion-label position="floating">Domicile</ion-label>
+              <ion-input type="number" formControlName="domicile"></ion-input>
+              <ion-label position="floating">Visiteur</ion-label>
+              <ion-input type="number" formControlName="visiteur"></ion-input>
+            </ion-item>
+            <ion-item [formGroup]="scoreForm2!">
+              <ion-label position="floating">Set 2</ion-label>
+              <ion-input type="number" formControlName="domicile"></ion-input>
+              <ion-input type="number" formControlName="visiteur"></ion-input>
+            </ion-item>
+            <ion-item [formGroup]="scoreForm3!">
+              <ion-label position="floating">Set 3</ion-label>
+              <ion-input type="number" formControlName="domicile"></ion-input>
+              <ion-input type="number" formControlName="visiteur"></ion-input>
+            </ion-item>
+            @if(showFiveSetsForms$ | async){
+            <ion-item [formGroup]="scoreForm4!">
+              <ion-label position="floating">Set 4</ion-label>
+              <ion-input type="number" formControlName="domicile"></ion-input>
+              <ion-input type="number" formControlName="visiteur"></ion-input>
+            </ion-item>
+            <ion-item [formGroup]="scoreForm5!">
+              <ion-label position="floating">Set 5</ion-label>
+              <ion-input type="number" formControlName="domicile"></ion-input>
+              <ion-input type="number" formControlName="visiteur"></ion-input>
+            </ion-item>
+            }
+          </ion-list>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
   <ion-card>
     <ion-card-header>
       <ion-card-title>Position</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button expand="full" color="tertiary" (click)="getCurrentLocation()">
-        <ion-icon name="location-outline" slot="start"></ion-icon>
-        Capturer la position
-      </ion-button>
-      @if (location){
-      <ion-item>
-        <p>Latitude : {{ location.latitude }}</p>
-        <p>Longitude : {{ location.longitude }}</p>
-      </ion-item>
-      }
+      <ion-list [formGroup]="locationForm">
+        <ion-button expand="full" color="tertiary" (click)="getCurrentLocation()">
+          <ion-icon name="location-outline" slot="start"></ion-icon>
+          Capturer la position
+        </ion-button>
+        <ion-item>
+          <ion-label position="floating">Latitude</ion-label>
+          <ion-input type="number" formControlName="latitude"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Longitude</ion-label>
+          <ion-input type="number" formControlName="longitude"></ion-input>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-button expand="full" color="success" [disabled]="matchForm.invalid" (click)="onSubmit()">
+  <ion-button expand="full" color="success" [disabled]="mainForm.invalid || locationForm.invalid" (click)="onSubmit()">
     <ion-icon name="checkmark-outline" slot="start"></ion-icon>
     Ajouter le match
   </ion-button>
-
 </ion-content>

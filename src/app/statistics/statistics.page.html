@@ -71,8 +71,13 @@
             <h3>{{ match.adversaire }}</h3>
             <p>{{ match.date }} - {{ match.surface }}</p>
           </ion-label>
-          <ion-badge color="success" *ngIf="match.score">V</ion-badge>
-          <ion-badge color="danger" *ngIf="!match.score">D</ion-badge>
+          @if(match.resultat.forfait){
+            <ion-badge color="warning">F</ion-badge>
+          } @else if (match.resultat.issue === 'Victoire'){
+            <ion-badge color="success">V</ion-badge>
+          } @else {
+            <ion-badge color="danger">D</ion-badge>
+          }
         </ion-item>
       </ion-list>
     </ion-card-content>
