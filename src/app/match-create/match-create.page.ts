@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {MatchService} from "../services/match.service";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Geolocation} from '@capacitor/geolocation';
 import {map, Observable, startWith, tap} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-match-create',
@@ -27,11 +28,14 @@ export class MatchCreatePage implements OnInit{
 
   public showScoreForms$!:Observable<boolean>;
   public showFiveSetsForms$!:Observable<boolean>;
+  public showSetsError$!:Observable<boolean>;
+  public showScoreError$!:Observable<boolean>;
 
 
 
   constructor(private _matchService: MatchService,
-              private _formBuilder: FormBuilder) {
+              private _formBuilder: FormBuilder,
+              private router:Router) {
   }
 
   ngOnInit():void {
@@ -62,8 +66,8 @@ export class MatchCreatePage implements OnInit{
       longitude: [0, Validators.required],
     });
     this.forfaitCtrl= this._formBuilder.control(false);
-    this.setsCtrl= this._formBuilder.control(3, [Validators.min(0),Validators.max(5),Validators.required]);
-    this.issueCtrl= this._formBuilder.control(false);
+    this.setsCtrl= this._formBuilder.control(3,[Validators.required,Validators.pattern('[3|5]')]);
+    this.issueCtrl= this._formBuilder.control("victoire", [Validators.required]);
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
       visiteur: [0, [Validators.min(0),Validators.max(7),Validators.required]],
@@ -103,9 +107,31 @@ export class MatchCreatePage implements OnInit{
     )
     this.showFiveSetsForms$= this.setsCtrl.valueChanges.pipe(
       startWith(this.setsCtrl.value),
-      map(sets => sets===5)
-    )
+      map(sets => sets===5),
+    );
+    this.showSetsError$=this.setsCtrl.valueChanges.pipe(
+      map(status=>(status!==5 && status!==3)),
+    );
+  }
 
+  getFormControlErrorText(ctrl:AbstractControl){
+    if(ctrl.touched && ctrl.invalid){
+      if(ctrl.hasError('required')){
+        return 'Ce champ est obligatoire';
+      }
+      else if(ctrl.hasError('min')){
+        return 'Valeur trop petite';
+      }
+      else if(ctrl.hasError('max')){
+        return 'Valeur trop grande';
+      }
+      else{
+        return '';
+      }
+    }
+    else{
+      return '';
+    }
   }
 
   async getCurrentLocation(): Promise<void> {
@@ -117,12 +143,12 @@ export class MatchCreatePage implements OnInit{
   }
 
   onSubmit(): void {
-
     if(this.mainForm.value.id) {
       this._matchService.updateMatch(this.mainForm.value)
     }
     else{
       this._matchService.createMatch(this.mainForm.value).subscribe()
     }
+    this.router.navigateByUrl('/tabs/match-list');
   }
 }
