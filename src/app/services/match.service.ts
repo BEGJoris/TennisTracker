@@ -49,7 +49,7 @@ export class MatchService {
     ).subscribe()
   }
 
-  getMatchsFromFirebase() {
+  getMatchsFromFirebase():Observable<Match[]> {
     this.setLoadingStatus(true);
     return this.matchsRef.snapshotChanges().pipe(
       map((changes: any) => {
@@ -61,7 +61,7 @@ export class MatchService {
         this._matchs$.next(matchs);
         this.setLoadingStatus(false);
       })
-    ).subscribe()
+    )
   }
 
   getMatchById(id: string): Observable<Match> {

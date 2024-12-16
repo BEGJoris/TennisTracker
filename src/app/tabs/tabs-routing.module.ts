@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import {MatchsResolver} from "../resolvers/matchs.resolver";
 
 const routes: Routes = [
   {
@@ -9,7 +10,8 @@ const routes: Routes = [
     children: [
       {
         path: 'match-list',
-        loadChildren: () => import('../match-list/match-list.module').then(m => m.MatchListPageModule)
+        loadChildren: () => import('../match-list/match-list.module').then(m => m.MatchListPageModule),
+        resolve:{matchs:MatchsResolver}
       },
       {
         path:'match-list/:id',
