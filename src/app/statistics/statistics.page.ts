@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
 import {Match} from "../models/match.model";
 import {MatchService} from "../services/match.service";
+import {Statistics} from "../models/statistics.model";
 
 @Component({
   selector: 'app-statistics',
@@ -9,18 +10,16 @@ import {MatchService} from "../services/match.service";
   styleUrls: ['./statistics.page.scss'],
 })
 export class StatisticsPage implements OnInit {
-  totalMatchs = 15;
-  victoirePourcentage = 66.7;
-  totalAces = 45;
-  totalDoubleFautes = 12;
-  pourcentagePremierService = 73;
-  pointsGagnes = 68;
+  loading$!:Observable<boolean>
+  stats!:Observable<Statistics>
   derniersMatchs!:Observable<Match[]>
   constructor(private _matchService: MatchService) { }
 
   ngOnInit() {
+    this.stats = this._matchService.getStats()
     this._matchService.getRecentMatches()
     this.derniersMatchs = this._matchService.matchs$
+    this.loading$=this._matchService.loading$
   }
 
 }

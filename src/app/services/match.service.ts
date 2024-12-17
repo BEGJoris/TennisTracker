@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Match} from "../models/match.model";
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {BehaviorSubject, delay, first, map, Observable, take, takeLast, tap} from "rxjs";
+import {BehaviorSubject, catchError, delay, first, map, Observable, of, take, takeLast, tap} from "rxjs";
+import {Statistics} from "../models/statistics.model";
 
 @Injectable({
   providedIn: 'root'
@@ -65,17 +66,24 @@ export class MatchService {
   }
 
   getMatchById(id: string): Observable<Match> {
-    return this.matchs$.pipe(
+    return this.getMatchsFromFirebase().pipe(
       map((matchs: Match[]) => matchs.filter(match=>match.id===id)[0]),
     )
   }
 
-  createMatch(match: Match): Observable<Match> {
+  createMatch(match: Match): Observable<boolean> {
     return new Observable(obs => {
       this.matchsRef.add({...match}).then(() => {
         obs.next(match);
       })
-    })
+    }).pipe(
+      map(() => true),
+      delay(1000),
+      // On émet un observable à faux
+      catchError(() => of(false).pipe(
+        delay(1000)
+      ))
+    )
   }
 
   updateMatch(match: Match): Observable<Match> {
@@ -94,5 +102,23 @@ export class MatchService {
     )
 
     this.setLoadingStatus(false);
+  }
+
+  getStats():Observable<Statistics>{
+    this.setLoadingStatus(true);
+    return this.matchs$.pipe(
+      delay(1000),
+      map((matchs:Match[])=>{
+        return {
+          totalMatchs:matchs.length,
+          victoirePourcentage:matchs.filter(match=>match.resultat.issue==="victoire").length*100/matchs.length,
+          totalAces:matchs.reduce((total,match)=>total+match.aces,0),
+          totalDoubleFautes:matchs.reduce((total,match)=>total+match.doubleFautes,0),
+          pourcentagePremierService:matchs.reduce((total,match)=>total+match.pourcentagePremierService,0)/matchs.length,
+          pointsGagnes:matchs.reduce((total,match)=>total+match.pointsGagnes,0)
+        }
+      }),
+      tap(()=>this.setLoadingStatus(false))
+    )
   }
 }
