@@ -23,6 +23,13 @@
         </ion-buttons>
       </ion-footer>
     </ion-card>
+  @if (!(matchs$ | async)?.length) {
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Aucun Match</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  }
   <ion-button expand="full" color="success" [routerLink]="['/tabs/match-create']">
     <ion-icon name="add-circle-outline" slot="start"></ion-icon>
     Ajouter un Match
