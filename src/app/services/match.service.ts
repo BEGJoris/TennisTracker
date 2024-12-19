@@ -99,7 +99,7 @@ export class MatchService {
     this.matchs$.pipe(
       map((matchs: Match[]) => matchs.filter(match => match.id !== id)),
       tap((matchs: Match[]) => this._matchs$.next(matchs))
-    )
+    ).subscribe()
 
     this.setLoadingStatus(false);
   }
