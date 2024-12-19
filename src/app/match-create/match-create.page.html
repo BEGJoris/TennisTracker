@@ -121,7 +121,6 @@
               <ion-col size="4"><strong>Visiteur</strong></ion-col>
             </ion-row>
 
-            <!-- Set 1 -->
             <ion-row [formGroup]="scoreForm1!">
               <ion-col size="4">Set 1</ion-col>
               <ion-col size="4">
@@ -130,6 +129,9 @@
                   formControlName="domicile"
                   placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm1!.get('domicile')!)}}
+                </ion-note>
               </ion-col>
               <ion-col size="4">
                 <ion-input
@@ -140,7 +142,6 @@
               </ion-col>
             </ion-row>
 
-            <!-- Set 2 -->
             <ion-row [formGroup]="scoreForm2!">
               <ion-col size="4">Set 2</ion-col>
               <ion-col size="4">
@@ -178,7 +179,6 @@
               </ion-col>
             </ion-row>
 
-            <!-- Affichage des sets 4 et 5 si requis -->
             @if(showFiveSetsForms$ | async) {
               <ion-row [formGroup]="scoreForm4!">
                 <ion-col size="4">Set 4</ion-col>
@@ -252,4 +252,7 @@
     <ion-icon name="checkmark-outline" slot="start"></ion-icon>
     Ajouter le match
   </ion-button>
+  @if(loading){
+    <ion-spinner color="primary"></ion-spinner>
+  }
 </ion-content>

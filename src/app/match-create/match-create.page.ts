@@ -11,6 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./match-create.page.scss'],
 })
 export class MatchCreatePage implements OnInit{
+  loading=false;
   public mainForm! :FormGroup
   public locationForm! : FormGroup
   public resultatForm!: FormGroup
@@ -115,7 +116,7 @@ export class MatchCreatePage implements OnInit{
   }
 
   getFormControlErrorText(ctrl:AbstractControl){
-    if(ctrl.touched && ctrl.invalid){
+    if(ctrl.touched){
       if(ctrl.hasError('required')){
         return 'Ce champ est obligatoire';
       }
@@ -125,13 +126,8 @@ export class MatchCreatePage implements OnInit{
       else if(ctrl.hasError('max')){
         return 'Valeur trop grande';
       }
-      else{
-        return '';
-      }
     }
-    else{
-      return '';
-    }
+    return ''
   }
 
   async getCurrentLocation(): Promise<void> {
@@ -143,12 +139,25 @@ export class MatchCreatePage implements OnInit{
   }
 
   onSubmit(): void {
-    if(this.mainForm.value.id) {
-      this._matchService.updateMatch(this.mainForm.value)
-    }
-    else{
-      this._matchService.createMatch(this.mainForm.value).subscribe()
-    }
-    this.router.navigateByUrl('/tabs/match-list');
+    this.loading=true;
+    this._matchService.createMatch(this.mainForm.value).pipe(
+      tap(saved => {
+        this.loading=false
+        if(saved){
+          this.resetForm();
+          this.router.navigateByUrl('/tabs/match-list');
+        }
+        else{
+          console.error("Echec de l'enregistrement")
+        }
+      })
+    ).subscribe()
   }
+  resetForm(){
+    this.mainForm.reset()
+    this.issueCtrl.patchValue('victoire')
+    this.setsCtrl.patchValue(3)
+  }
+
+
 }
