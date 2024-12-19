@@ -88,7 +88,7 @@ export class MatchService {
 
   updateMatch(match: Match): Observable<Match> {
     return new Observable(obs => {
-      this.matchsRef.doc(match.id.toString()).update(match)
+      this.matchsRef.doc(match.id).update(match)
       obs.next()
     })
   }

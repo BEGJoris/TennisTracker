@@ -8,82 +8,241 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  @if (match) {
-  <ng-container>
     <ion-card>
       <ion-card-header>
         <ion-card-title>Informations du match</ion-card-title>
       </ion-card-header>
-
       <ion-card-content>
-        <ion-list>
+        <ion-list [formGroup]="mainForm">
           <ion-item>
             <ion-label position="floating">Adversaire</ion-label>
-            <ion-input
-              type="text"
-              [(ngModel)]="match.adversaire"
-              placeholder="Nom de l'adversaire">
-            </ion-input>
+            <ion-input type="text" formControlName="adversaire"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('adversaire')!) }}
+            </ion-note>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Date du match</ion-label>
+            <br>
             <ion-datetime
               presentation="date"
-              [(ngModel)]="match.date">
+              formControlName="date">
             </ion-datetime>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('date')!) }}
+            </ion-note>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Surface</ion-label>
-            <ion-select [(ngModel)]="match.surface">
+            <ion-select formControlName="surface">
               <ion-select-option value="terre battue">Terre battue</ion-select-option>
               <ion-select-option value="gazon">Gazon</ion-select-option>
               <ion-select-option value="dur">Dur</ion-select-option>
             </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-label position="floating">Score</ion-label>
-            <ion-input
-              type="text"
-              [(ngModel)]="match.resultat.issue">
-            </ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('surface')!) }}
+            </ion-note>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
-
     <ion-card>
       <ion-card-header>
         <ion-card-title>Statistiques</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-list>
+        <ion-list [formGroup]="mainForm">
           <ion-item>
             <ion-label position="floating">Aces</ion-label>
-            <ion-input
-              type="number"
-              [(ngModel)]="match.aces">
-            </ion-input>
+            <ion-input type="number" formControlName="aces"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('aces')!) }}
+            </ion-note>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Doubles fautes</ion-label>
-            <ion-input
-              type="number"
-              [(ngModel)]="match.doubleFautes">
-            </ion-input>
+            <ion-label position="floating">Double Fautes</ion-label>
+            <ion-input type="number" formControlName="doubleFautes"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('doubleFautes')!) }}
+            </ion-note>
           </ion-item>
           <ion-item>
             <ion-label position="floating">% Premier Service</ion-label>
-            <ion-input
-              type="number"
-              [(ngModel)]="match.pourcentagePremierService">
-            </ion-input>
+            <ion-input type="number" formControlName="pourcentagePremierService"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('pourcentagePremierService')!) }}
+            </ion-note>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Points gagnés</ion-label>
-            <ion-input
-              type="number"
-              [(ngModel)]="match.pointsGagnes">
-            </ion-input>
+            <ion-label position="floating">Points Gagnés</ion-label>
+            <ion-input type="number" formControlName="pointsGagnes"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(mainForm.get('pointsGagnes')!) }}
+            </ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Résultat</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list [formGroup]="resultatForm">
+          <ion-item>
+            <ion-label position="floating">Issue du match</ion-label>
+            <ion-select [formControl]="issueCtrl">
+              <ion-select-option value="victoire">Victoire</ion-select-option>
+              <ion-select-option value="défaite">Défaite</ion-select-option>
+              <ion-note color="danger">
+                {{ getFormControlErrorText(issueCtrl) }}
+              </ion-note>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Forfait</ion-label>
+            <ion-toggle [formControl]="forfaitCtrl"></ion-toggle>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Nombre de sets gagnants</ion-label>
+            <ion-input type="number" [formControl]="setsCtrl"></ion-input>
+            @if(showSetsError$ | async){
+              <ion-note color="danger">
+                Le nombre de sets gagnants est 3 ou 5
+              </ion-note>
+            }
+          </ion-item>
+          @if(showScoreForms$ | async){
+            <ion-grid>
+              <ion-row>
+                <ion-col size="4"><strong>Set</strong></ion-col>
+                <ion-col size="4"><strong>Domicile</strong></ion-col>
+                <ion-col size="4"><strong>Visiteur</strong></ion-col>
+              </ion-row>
+
+              <ion-row [formGroup]="scoreForm1!">
+                <ion-col size="4">Set 1</ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="domicile"
+                    placeholder="0"
+                  ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm1!.get('domicile')!)}}
+                  </ion-note>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="visiteur"
+                    placeholder="0"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+
+              <ion-row [formGroup]="scoreForm2!">
+                <ion-col size="4">Set 2</ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="domicile"
+                    placeholder="0"
+                  ></ion-input>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="visiteur"
+                    placeholder="0"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+
+              <!-- Set 3 -->
+              <ion-row [formGroup]="scoreForm3!">
+                <ion-col size="4">Set 3</ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="domicile"
+                    placeholder="0"
+                  ></ion-input>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-input
+                    type="number"
+                    formControlName="visiteur"
+                    placeholder="0"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+
+              @if(showFiveSetsForms$ | async) {
+                <ion-row [formGroup]="scoreForm4!">
+                  <ion-col size="4">Set 4</ion-col>
+                  <ion-col size="4">
+                    <ion-input
+                      type="number"
+                      formControlName="domicile"
+                      placeholder="0"
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-input
+                      type="number"
+                      formControlName="visiteur"
+                      placeholder="0"
+                    ></ion-input>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row [formGroup]="scoreForm5!">
+                  <ion-col size="4">Set 5</ion-col>
+                  <ion-col size="4">
+                    <ion-input
+                      type="number"
+                      formControlName="domicile"
+                      placeholder="0"
+                    ></ion-input>
+                  </ion-col>
+                  <ion-col size="4">
+                    <ion-input
+                      type="number"
+                      formControlName="visiteur"
+                      placeholder="0"
+                    ></ion-input>
+                  </ion-col>
+                </ion-row>
+              }
+            </ion-grid>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Position</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list [formGroup]="locationForm">
+          <ion-button expand="full" color="tertiary" (click)="getCurrentLocation()">
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            Capturer la position
+          </ion-button>
+          <ion-item>
+            <ion-label position="floating">Latitude</ion-label>
+            <ion-input type="number" formControlName="latitude"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(locationForm.get('latitude')!) }}
+            </ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Longitude</ion-label>
+            <ion-input type="number" formControlName="longitude"></ion-input>
+            <ion-note color="danger">
+              {{ getFormControlErrorText(locationForm.get('longitude')!) }}
+            </ion-note>
           </ion-item>
         </ion-list>
       </ion-card-content>
@@ -94,17 +253,5 @@
       Mettre à jour
     </ion-button>
 
-    <ion-text color="success" *ngIf="change" class="ion-margin-top">
-      <p style="text-align: center; margin-top: 1rem;">
-        Les changements ont bien été enregistrés !
-      </p>
-    </ion-text>
-  </ng-container>
-  }
-  @else{
-  <ng-template>
-    <ion-spinner name="crescent"></ion-spinner>
-    <p style="text-align: center; margin-top: 1rem;">Chargement des données...</p>
-  </ng-template>
-  }
+
 </ion-content>
