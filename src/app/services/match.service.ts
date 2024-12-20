@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Match} from "../models/match.model";
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {BehaviorSubject, catchError, delay, first, map, Observable, of, take, takeLast, tap} from "rxjs";
+import {BehaviorSubject, catchError, delay, first, map, Observable, of, tap} from "rxjs";
 import {Statistics} from "../models/statistics.model";
 
 @Injectable({
@@ -118,7 +118,6 @@ export class MatchService {
           pointsGagnes:matchs.reduce((total,match)=>total+match.pointsGagnes,0)
         }
       }),
-      tap(()=>this.setLoadingStatus(false))
     )
   }
 }

@@ -10,9 +10,11 @@
       <ion-card-title>Statistiques globales</ion-card-title>
     </ion-card-header>
     @if(loading$ | async){
-      <ion-spinner></ion-spinner>
+      <ion-card-content class="content-loading">
+        <ion-spinner color="primary"></ion-spinner>
+      </ion-card-content>
     }
-    @if(!(derniersMatchs | async)?.length){
+    @if((loading$ | async)=== false && (!(derniersMatchs | async)?.length)){
       <ion-card-content>
         <p>Aucun match</p>
       </ion-card-content>
@@ -63,9 +65,11 @@
       <ion-card-title>Performances</ion-card-title>
     </ion-card-header>
     @if(loading$ | async){
-      <ion-spinner></ion-spinner>
+      <ion-card-content class="content-loading">
+        <ion-spinner color="primary"></ion-spinner>
+      </ion-card-content>
     }
-    @if(!(derniersMatchs | async)?.length){
+    @if((loading$ | async)=== false && (!(derniersMatchs | async)?.length)){
       <ion-card-content>
         <p>Aucun match</p>
       </ion-card-content>
@@ -83,10 +87,13 @@
     <ion-card-header>
       <ion-card-title>Derniers matchs</ion-card-title>
     </ion-card-header>
+
     @if(loading$ | async){
-      <ion-spinner></ion-spinner>
+      <ion-card-content class="content-loading">
+        <ion-spinner color="primary"></ion-spinner>
+      </ion-card-content>
     }
-    @if(!(derniersMatchs | async)?.length){
+    @if((loading$ | async)=== false && (!(derniersMatchs | async)?.length)){
       <ion-card-content>
         <p>Aucun match</p>
       </ion-card-content>
@@ -97,7 +104,12 @@
         <ion-item *ngFor="let match of derniersMatchs | async">
           <ion-label>
             <h3>{{ match.adversaire }}</h3>
-            <p>{{ match.date }} - {{ match.surface }}</p>
+            {{match.resultat.score1stSet?.domicile}} - {{match.resultat.score1stSet?.visiteur}}
+            {{match.resultat.score2ndSet?.domicile}} - {{match.resultat.score2ndSet?.visiteur}}
+            {{match.resultat.score3rdSet?.domicile}} - {{match.resultat.score3rdSet?.visiteur}}
+            {{match.resultat.score4thSet?.domicile}} - {{match.resultat.score4thSet?.visiteur}}
+            {{match.resultat.score5thSet?.domicile}} - {{match.resultat.score5thSet?.visiteur}}
+            <p>{{ match.date | date:'dd/MM/yyyy' }} - {{ match.surface }}</p>
           </ion-label>
           @if(match.resultat.forfait){
             <ion-badge color="warning">F</ion-badge>

@@ -6,24 +6,32 @@
 .hero h1 {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #3c763d; /* Vert Wimbledon */
 }
 
 .hero p {
   font-size: 1rem;
-  color: #555;
+  //color: #555;
 }
 
 ion-card {
   text-align: center;
-  --background: #f9f9f9;
+  margin-bottom: 1rem;
+}
+ion-card-title{
+  font-size: clamp(12px, 4vw, 20px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  color: white;
+}
+ion-card-content{
+  font-size: 1rem;
 }
 
-ion-card-title {
-  font-size: 1.1rem;
+ion-item{
+  margin-bottom: 0.5rem;
 }
 
-ion-icon {
-  margin-top: 0.5rem;
-  color: var(--ion-color-primary);
-}
