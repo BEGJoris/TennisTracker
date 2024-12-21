@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatchService} from "../services/match.service";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Geolocation} from '@capacitor/geolocation';
-import {map, Observable, startWith, tap} from "rxjs";
+import {map, Observable, startWith, tap, combineLatest} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -30,7 +30,6 @@ export class MatchCreatePage implements OnInit{
   public showScoreForms$!:Observable<boolean>;
   public showFiveSetsForms$!:Observable<boolean>;
   public showSetsError$!:Observable<boolean>;
-  public showScoreError$!:Observable<boolean>;
 
 
 
@@ -67,7 +66,7 @@ export class MatchCreatePage implements OnInit{
       longitude: [0, Validators.required],
     });
     this.forfaitCtrl= this._formBuilder.control(false);
-    this.setsCtrl= this._formBuilder.control(3,[Validators.required,Validators.pattern('[3|5]')]);
+    this.setsCtrl= this._formBuilder.control(null,[Validators.required,Validators.pattern('[3|5]')]);
     this.issueCtrl= this._formBuilder.control("victoire", [Validators.required]);
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
@@ -101,17 +100,36 @@ export class MatchCreatePage implements OnInit{
     });
 
   }
-  private initFormObservables():void{
-    this.showScoreForms$=this.forfaitCtrl.valueChanges.pipe(
+  private initFormObservables(): void {
+    // Observable pour afficher les champs de score uniquement si "forfait" est décoché
+    this.showScoreForms$ = this.forfaitCtrl.valueChanges.pipe(
       startWith(this.forfaitCtrl.value),
-      map(forfait => !forfait)
-    )
-    this.showFiveSetsForms$= this.setsCtrl.valueChanges.pipe(
-      startWith(this.setsCtrl.value),
-      map(sets => sets===5),
+      map(forfait => !forfait),
     );
-    this.showSetsError$=this.setsCtrl.valueChanges.pipe(
-      map(status=>(status!==5 && status!==3)),
+
+    // Observable pour afficher les champs pour les 5 sets uniquement si "setsCtrl" est 5 et "forfaitCtrl" est décoché
+    let lastValidSetsValue = this.setsCtrl.value; // Stocker la dernière valeur valide de setsCtrl
+
+    this.showFiveSetsForms$ = combineLatest([
+      this.setsCtrl.valueChanges.pipe(
+        startWith(this.setsCtrl.value),
+        tap(sets => {
+          if (sets === 3 || sets === 5) {
+            lastValidSetsValue = sets;
+          }
+        }),
+        map(sets => sets || lastValidSetsValue) // Utiliser la dernière valeur valide si sets est null
+      ),
+      this.forfaitCtrl.valueChanges.pipe(
+        startWith(this.forfaitCtrl.value),
+      )
+    ]).pipe(
+      map(([sets, forfait]) => sets === 5 && !forfait),
+    );
+
+    // Observable pour afficher une erreur si la valeur de "setsCtrl" est invalide
+    this.showSetsError$ = this.setsCtrl.valueChanges.pipe(
+      map(sets => sets !== 5 && sets !== 3),
     );
   }
 
@@ -155,9 +173,26 @@ export class MatchCreatePage implements OnInit{
   }
   resetForm(){
     this.mainForm.reset()
-    this.issueCtrl.patchValue('victoire')
-    this.setsCtrl.patchValue(3)
-  }
+    this.locationForm.reset()
+    this.resultatForm.reset()
 
+      // Remettre les valeurs par défaut pour les contrôles spécifiques
+    this.issueCtrl.setValue('victoire');
+    this.setsCtrl.setValue(3);
+    this.forfaitCtrl.setValue(false);
 
+      // Réinitialiser les sous-formulaires de scores
+      this.scoreForm1?.reset({ domicile: 0, visiteur: 0 });
+      this.scoreForm2?.reset({ domicile: 0, visiteur: 0 });
+      this.scoreForm3?.reset({ domicile: 0, visiteur: 0 });
+      this.scoreForm4?.reset({ domicile: 0, visiteur: 0 });
+      this.scoreForm5?.reset({ domicile: 0, visiteur: 0 });
+
+      this.locationForm.patchValue({ latitude: 0, longitude: 0 });
+
+      // Marquer le formulaire comme vierge
+      this.mainForm.markAsPristine();
+      this.mainForm.markAsUntouched();
+      this.mainForm.updateValueAndValidity();
+    }
 }

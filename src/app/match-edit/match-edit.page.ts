@@ -117,16 +117,24 @@ export class MatchEditPage implements OnInit {
   private loadMatchData(): void {
     this.matchId = this.route.snapshot.paramMap.get('id')!;
     this._matchService.getMatchById(this.matchId).subscribe(matchData => {
-      console.log(matchData);
-      // On patchValue pour remplir le formulaire
       this.locationForm.patchValue(matchData.location);
       this.resultatForm.patchValue(matchData.resultat);
-      this.mainForm.patchValue(matchData);
+      this.mainForm.patchValue({
+        ...matchData,
+        location: matchData.location,
+        resultat: matchData.resultat
+      });
     });
   }
 
 onUpdate() {
-  this._matchService.updateMatch({...this.mainForm.value,id: this.matchId}).pipe(
+  const updatedMatch={
+    ...this.mainForm.value,
+    location: this.locationForm.value,
+    resultat: this.resultatForm.value
+  }
+
+  this._matchService.updateMatch({...updatedMatch,id: this.matchId}).pipe(
     tap(() => {
       this.loading = true;
       setTimeout(() => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Match} from "../models/match.model";
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
-import {BehaviorSubject, catchError, delay, first, map, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, catchError, delay, first, map, Observable, of, shareReplay, tap} from "rxjs";
 import {Statistics} from "../models/statistics.model";
 
 @Injectable({
@@ -89,21 +89,25 @@ export class MatchService {
   }
 
   updateMatch(match: Match): Observable<Match> {
+    this.matchs$.pipe(
+      map((matchs: Match[]) => matchs.filter(match => match.id !== match.id)),
+      tap((matchs: Match[]) => this._matchs$.next(matchs)),
+      shareReplay(1)
+    )
     return new Observable(obs => {
       this.matchsRef.doc(match.id).update(match)
       obs.next()
     })
   }
 
-  deleteMatch(id: string): void {
-    this.setLoadingStatus(true);
-    this._firestore.doc(`${this.dbPath}/${id}`).delete();
+  deleteMatch(id: string): void{
     this.matchs$.pipe(
       map((matchs: Match[]) => matchs.filter(match => match.id !== id)),
-      tap((matchs: Match[]) => this._matchs$.next(matchs))
-    ).subscribe()
+      tap((matchs: Match[]) => this._matchs$.next(matchs)),
+    )
+    this._firestore.doc(`${this.dbPath}/${id}`).delete();
 
-    this.setLoadingStatus(false);
+
   }
 
   getStats():Observable<Statistics>{
