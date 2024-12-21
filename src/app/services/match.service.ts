@@ -32,9 +32,9 @@ export class MatchService {
     this._loading$.next(loading);
   }
 
-  getRecentMatches(){
+  getRecentMatches():Observable<Match[]>{
     this.setLoadingStatus(true);
-    this.matchsRef.snapshotChanges().pipe(
+    return this.matchsRef.snapshotChanges().pipe(
       first(),
       map((changes: any) => {
         return changes.map((doc: any) => {
@@ -42,12 +42,14 @@ export class MatchService {
         });
       }),
       delay(2000),
+      map((matchs: Match[]) => matchs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())),
       map((matchs: Match[]) => matchs.slice(0, 3)),
+      shareReplay(1), // On partage la valeur à tous les souscripteurs
       tap((matchs: Match[]) =>{
         this._matchs$.next(matchs)
         this.setLoadingStatus(false);
       }),
-    ).subscribe()
+    )
   }
 
   getMatchsFromFirebase():Observable<Match[]> {
