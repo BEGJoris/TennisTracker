@@ -14,7 +14,7 @@ import {ActivatedRoute} from "@angular/router";
       transition('* <=> *', [
         query(':enter', [
           style({ opacity: 0, transform: 'translateY(-20px)' }),
-          stagger(100, [
+          stagger(400, [
             animate('500ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
           ])
         ], { optional: true })

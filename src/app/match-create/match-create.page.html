@@ -8,7 +8,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-
+  @if(loading){
+    <ion-spinner color="primary"></ion-spinner>
+  }
+  @else{
   <ion-card>
     <ion-card-header>
       <ion-card-title>Informations du match</ion-card-title>
@@ -127,7 +130,6 @@
                 <ion-input
                   type="number"
                   formControlName="domicile"
-                  placeholder="0"
                 ></ion-input>
                 <ion-note color="danger">
                   {{ getFormControlErrorText(scoreForm1!.get('domicile')!)}}
@@ -137,8 +139,10 @@
                 <ion-input
                   type="number"
                   formControlName="visiteur"
-                  placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm1!.get('visiteur')!)}}
+                </ion-note>
               </ion-col>
             </ion-row>
 
@@ -148,15 +152,19 @@
                 <ion-input
                   type="number"
                   formControlName="domicile"
-                  placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm2!.get('domicile')!)}}
+                </ion-note>
               </ion-col>
               <ion-col size="4">
                 <ion-input
                   type="number"
                   formControlName="visiteur"
-                  placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm2!.get('visiteur')!)}}
+                </ion-note>
               </ion-col>
             </ion-row>
 
@@ -167,15 +175,19 @@
                 <ion-input
                   type="number"
                   formControlName="domicile"
-                  placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm3!.get('domicile')!)}}
+                </ion-note>
               </ion-col>
               <ion-col size="4">
                 <ion-input
                   type="number"
                   formControlName="visiteur"
-                  placeholder="0"
                 ></ion-input>
+                <ion-note color="danger">
+                  {{ getFormControlErrorText(scoreForm3!.get('visiteur')!)}}
+                </ion-note>
               </ion-col>
             </ion-row>
 
@@ -186,15 +198,19 @@
                   <ion-input
                     type="number"
                     formControlName="domicile"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm4!.get('domicile')!)}}
+                  </ion-note>
                 </ion-col>
                 <ion-col size="4">
                   <ion-input
                     type="number"
                     formControlName="visiteur"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm4!.get('visiteur')!)}}
+                  </ion-note>
                 </ion-col>
               </ion-row>
 
@@ -204,14 +220,12 @@
                   <ion-input
                     type="number"
                     formControlName="domicile"
-                    placeholder="0"
                   ></ion-input>
                 </ion-col>
                 <ion-col size="4">
                   <ion-input
                     type="number"
                     formControlName="visiteur"
-                    placeholder="0"
                   ></ion-input>
                 </ion-col>
               </ion-row>
@@ -252,7 +266,5 @@
     <ion-icon name="checkmark-outline" slot="start"></ion-icon>
     Ajouter le match
   </ion-button>
-  @if(loading){
-    <ion-spinner color="primary"></ion-spinner>
   }
 </ion-content>

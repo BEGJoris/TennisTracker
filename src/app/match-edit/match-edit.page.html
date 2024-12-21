@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  @if(loading){
+    <ion-spinner color="primary"></ion-spinner>
+  } @else {
     <ion-card>
       <ion-card-header>
         <ion-card-title>Informations du match</ion-card-title>
@@ -253,5 +256,6 @@
       Mettre à jour
     </ion-button>
 
+  }
 
 </ion-content>

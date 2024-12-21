@@ -27,7 +27,7 @@
       <ion-col size="6">
         <ion-card color="primary" button [routerLink]="['/tabs/match-list']">
           <ion-card-header>
-            <ion-card-title>Voir mes Matchs</ion-card-title>
+            <ion-card-title>Mes Matchs</ion-card-title>
           </ion-card-header>
           <ion-card-content>
             <ion-icon name="list-outline" size="large" color="secondary"></ion-icon>
@@ -67,8 +67,13 @@
         @if (loading$ | async){
           <ion-spinner></ion-spinner>
         }
+        @if ((loading$ | async)=== false && (!(recentMatches$ | async)?.length)){
+          <ion-card-content>
+            <p>Aucun match</p>
+          </ion-card-content>
+        }
         @if(recentMatches$ | async; as recentMatches){
-          @for(match of recentMatches; track match){
+          @for(match of recentMatches; track match.id){
             <ion-item>
               <ion-label>
                 <h2>{{ match.adversaire }}</h2>
