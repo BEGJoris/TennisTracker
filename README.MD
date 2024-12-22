@@ -83,16 +83,19 @@ Il est crucial d'utiliser Angular en version **>= 17**, car le projet exploite d
    ```bash
    ionic cap add android
    ```
-2. **Synchroniser les changements** :
+2. **Synchroniser les changements et build l'application** :
    ```bash
    ionic cap sync android
    ```
-3. **Exporter l'application** :
-   ```bash
-   ionic cap build android
-   ```
 
 #### Rendez-vous sur Android Studio pour lancer l'application ou build un APK.
+
+### N.B : Ne pas oublier d'ajouter les lignes ci-dessous dans le fichier `AndroidManifest.xml` afin de pouvoir utiliser la fonctionnalité de géolocalisation.
+``` xml
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
 ## Aperçu
 
 - **Composants Ionic** : L'application exploite au maximum les composants d'Ionic pour une interface utilisateur moderne et responsive.
