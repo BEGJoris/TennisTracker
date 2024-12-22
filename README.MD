@@ -57,7 +57,7 @@ Il est crucial d'utiliser Angular en version **>= 17**, car le projet exploite d
 - **Page Liste des matchs :** Affiche tous les matchs enregistrés sous forme de liste.
 - **Page Création de match :** Permet d'ajouter un nouveau match avec des sous formulaires pour le résultat, les statistiques...
 - **Page Modification de match :** Permet de modifier les détails d'un match existant.
-- **Page avec fonctionnalité native :** Utilise la géolocalisation
+- **Page avec fonctionnalité native :** Utilise la géolocalisation lors de l'ajout un match (capture instantanée de la position).
 
 
 
