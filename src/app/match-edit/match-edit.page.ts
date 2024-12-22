@@ -101,12 +101,15 @@ export class MatchEditPage implements OnInit {
 
   }
   private initFormObservables():void{
+    // On renseigne les scores si forfait est à faux
     this.showScoreForms$=this.forfaitCtrl.valueChanges.pipe(
       startWith(this.forfaitCtrl.value),
       map(forfait => !forfait)
     )
     let lastValidSetsValue = this.setsCtrl.value; // Stocker la dernière valeur valide de setsCtrl
 
+    // On affiche les 5 sets uniquement si "setsCtrl" est 5 et "forfaitCtrl" à faux
+    // Il faut donc combiner les deux observables valuesChanges de chacun des 2 controles
     this.showFiveSetsForms$ = combineLatest([
       this.setsCtrl.valueChanges.pipe(
         startWith(this.setsCtrl.value),
@@ -123,11 +126,14 @@ export class MatchEditPage implements OnInit {
     ]).pipe(
       map(([sets, forfait]) => sets === 5 && !forfait),
     );
+
+    // On affiche une erreur si la valeur de "setsCtrl" est invalide
     this.showSetsError$=this.setsCtrl.valueChanges.pipe(
       map(status=>(status!==5 && status!==3)),
     );
   }
   private loadMatchData(): void {
+    // On charge toutes les données du match
     this.matchId = this.route.snapshot.paramMap.get('id')!;
     this._matchService.getMatchById(this.matchId).subscribe(matchData => {
       this.locationForm.patchValue(matchData.location);
@@ -166,6 +172,7 @@ onUpdate() {
   }
 
   getFormControlErrorText(ctrl:AbstractControl){
+    // Afficher le message d'erreur uniquement si le champ a été touché
     if(ctrl.touched){
       if(ctrl.hasError('required')){
         return 'Ce champ est obligatoire';

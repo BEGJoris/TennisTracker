@@ -23,6 +23,7 @@ export class StatisticsPage implements OnInit {
       map((matchs: Match[]) => matchs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())),
       map((matchs: Match[]) => matchs.slice(0, 3)),
     )
+    // On met un observable timer de 2 secondes pour bien voir le loading
     timer(2000).pipe(
       switchMap(() => this._matchService.getMatchsFromFirebase())
     ).subscribe()

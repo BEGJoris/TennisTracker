@@ -61,13 +61,17 @@ export class MatchCreatePage implements OnInit{
   }
 
   private initFormControls(): void {
+    // Initialisation du sous-formulaire
     this.locationForm = this._formBuilder.group({
       latitude: [0, Validators.required],
       longitude: [0, Validators.required],
     });
     this.forfaitCtrl= this._formBuilder.control(false);
+    // Important d'initialiser les controls avant de les utiliser
+    // Important de mettre le setsCtrl à null par défaut pour la suite
     this.setsCtrl= this._formBuilder.control(null,[Validators.required,Validators.pattern('[3|5]')]);
     this.issueCtrl= this._formBuilder.control("Victoire", [Validators.required]);
+    // Initialisation des sous-formulaires
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
       visiteur: [0, [Validators.min(0),Validators.max(7),Validators.required]],
@@ -88,6 +92,7 @@ export class MatchCreatePage implements OnInit{
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
       visiteur: [0, [Validators.min(0),Validators.max(7),Validators.required]],
     });
+    // Initialisation du sous-formulaire
     this.resultatForm = this._formBuilder.group({
       forfait: this.forfaitCtrl,
       nbSets: this.setsCtrl,
@@ -107,9 +112,9 @@ export class MatchCreatePage implements OnInit{
       map(forfait => !forfait),
     );
 
-    // Observable pour afficher les champs pour les 5 sets uniquement si "setsCtrl" est 5 et "forfaitCtrl" est décoché
     let lastValidSetsValue = this.setsCtrl.value; // Stocker la dernière valeur valide de setsCtrl
 
+    // Observable pour afficher les champs pour les 5 sets uniquement si "setsCtrl" est 5 et "forfaitCtrl" est décoché
     this.showFiveSetsForms$ = combineLatest([
       this.setsCtrl.valueChanges.pipe(
         startWith(this.setsCtrl.value),
