@@ -12,7 +12,6 @@ export class MatchService {
   matchsRef:AngularFirestoreCollection<Match>;
 
   constructor(private _firestore: AngularFirestore) {
-
     this.matchsRef = this._firestore.collection<Match>(this.dbPath);
   }
 
@@ -42,6 +41,7 @@ export class MatchService {
         });
       }),
       delay(2000),
+      // On garde les 3 derniers matchs
       map((matchs: Match[]) => matchs.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())),
       map((matchs: Match[]) => matchs.slice(0, 3)),
       shareReplay(1), // On partage la valeur à tous les souscripteurs
@@ -92,7 +92,7 @@ export class MatchService {
     this.matchs$.pipe(
       map((matchs: Match[]) => matchs.filter(match => match.id !== match.id)),
       tap((matchs: Match[]) => this._matchs$.next(matchs)),
-      shareReplay(1)
+      shareReplay(1) // On partage la valeur à tous les souscripteurs
     )
     return new Observable(obs => {
       this.matchsRef.doc(match.id).update(match)
@@ -103,7 +103,7 @@ export class MatchService {
   deleteMatch(id: string): void{
     this.matchs$.pipe(
       map((matchs: Match[]) => matchs.filter(match => match.id !== id)),
-      tap((matchs: Match[]) => this._matchs$.next(matchs)),
+      tap((matchs: Match[]) => this._matchs$.next(matchs)), // On émet les matchs actualisés
     )
     this._firestore.doc(`${this.dbPath}/${id}`).delete();
 
@@ -115,6 +115,7 @@ export class MatchService {
     return this.matchs$.pipe(
       map((matchs:Match[])=>{
         return {
+          // Calcul des stats
           totalMatchs:matchs.length,
           victoirePourcentage:matchs.filter(match=>match.resultat.issue==="Victoire").length*100/matchs.length,
           totalAces:matchs.reduce((total,match)=>total+match.aces,0),

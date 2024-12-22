@@ -9,7 +9,7 @@ export class MatchsResolver implements Resolve<Match[]> {
 
   constructor(private _matchService:MatchService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Match[]> {
+  resolve(): Observable<Match[]> {
     return this._matchService.getMatchsFromFirebase();
   }
 }

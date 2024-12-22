@@ -34,8 +34,8 @@ export class MatchListPage implements OnInit {
   ngOnInit(): void {
     this.initObservables()
     this.matchs$=combineLatest([
-      this.route.data.pipe(map(data => data['matchs'] || [])),
-      this.matchsDeletion$
+      this.route.data.pipe(map(data => data['matchs'] || [])), // Données résolvées
+      this.matchsDeletion$ // On écoute aussi les suppressions
     ]).pipe(
       map(([resolvedMatchs, deletionMatch]) => {
         return deletionMatch.length > 0 ? deletionMatch : resolvedMatchs;

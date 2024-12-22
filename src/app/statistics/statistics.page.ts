@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {delay, map, Observable, timer, switchMap} from "rxjs";
+import {map, Observable, timer, switchMap} from "rxjs";
 import {Match} from "../models/match.model";
 import {MatchService} from "../services/match.service";
 import {Statistics} from "../models/statistics.model";

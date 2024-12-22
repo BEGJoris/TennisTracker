@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatchService} from "../services/match.service";
 import {Observable, switchMap} from "rxjs";
 import {Match} from "../models/match.model";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-single-match',
@@ -14,8 +14,7 @@ export class SingleMatchPage implements OnInit {
   match$!: Observable<Match>;
 
   constructor(private _matchService: MatchService,
-              private route:ActivatedRoute,
-              private router:Router) { }
+              private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.initObservables()
