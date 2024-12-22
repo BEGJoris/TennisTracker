@@ -271,7 +271,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-button expand="full" color="success" (click)="onUpdate()">
+    <ion-button expand="full" color="success" [disabled]="mainForm.invalid || locationForm.invalid || resultatForm.invalid" (click)="onUpdate()">
       <ion-icon name="save-outline" slot="start"></ion-icon>
       Mettre à jour
     </ion-button>

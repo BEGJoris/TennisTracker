@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Match} from "../models/match.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatchService} from "../services/match.service";
-import {map, Observable, startWith, tap} from "rxjs";
+import {combineLatest, map, Observable, startWith, tap} from "rxjs";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Geolocation} from "@capacitor/geolocation";
 
@@ -33,7 +33,6 @@ export class MatchEditPage implements OnInit {
   public showScoreForms$!:Observable<boolean>;
   public showFiveSetsForms$!:Observable<boolean>;
   public showSetsError$!:Observable<boolean>;
-  public showScoreError$!:Observable<boolean>;
 
   constructor(private _matchService: MatchService,
     private _formBuilder: FormBuilder,
@@ -67,7 +66,7 @@ export class MatchEditPage implements OnInit {
       longitude: [0, Validators.required],
     });
     this.forfaitCtrl= this._formBuilder.control(false);
-    this.setsCtrl= this._formBuilder.control(3,[Validators.required,Validators.pattern('[3|5]')]);
+    this.setsCtrl= this._formBuilder.control(null,[Validators.required,Validators.pattern('[3|5]')]);
     this.issueCtrl= this._formBuilder.control("Victoire", [Validators.required]);
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
@@ -106,9 +105,23 @@ export class MatchEditPage implements OnInit {
       startWith(this.forfaitCtrl.value),
       map(forfait => !forfait)
     )
-    this.showFiveSetsForms$= this.setsCtrl.valueChanges.pipe(
-      startWith(this.setsCtrl.value),
-      map(sets => sets===5),
+    let lastValidSetsValue = this.setsCtrl.value; // Stocker la dernière valeur valide de setsCtrl
+
+    this.showFiveSetsForms$ = combineLatest([
+      this.setsCtrl.valueChanges.pipe(
+        startWith(this.setsCtrl.value),
+        tap(sets => {
+          if (sets === 3 || sets === 5) {
+            lastValidSetsValue = sets;
+          }
+        }),
+        map(sets => sets || lastValidSetsValue) // Utiliser la dernière valeur valide si sets est null
+      ),
+      this.forfaitCtrl.valueChanges.pipe(
+        startWith(this.forfaitCtrl.value),
+      )
+    ]).pipe(
+      map(([sets, forfait]) => sets === 5 && !forfait),
     );
     this.showSetsError$=this.setsCtrl.valueChanges.pipe(
       map(status=>(status!==5 && status!==3)),
