@@ -43,6 +43,7 @@ cette application vous aide à progresser dans votre pratique en proposant un su
 - Utilisation d'**Angular Services** pour centraliser la logique métier et faciliter la réutilisation du code.
 - Implémentation des formulaires réactifs avec **ReactiveFormsModule** pour une validation puissante et une expérience utilisateur améliorée. (**Validators**, **FormBuilder**...)
 - Gestion des flux asynchrones en utilisant des concepts avancés d'Angular et RxJS.
+- Utilisation d'animations Angular pour une interface fluide et dynamique.
 
 
 ### N.B.
@@ -76,7 +77,22 @@ Il est crucial d'utiliser Angular en version **>= 17**, car le projet exploite d
    ```bash
    ionic serve
    ```
+## Export de l'application sous Android :
 
+1. **Configurer l'environnement** :
+   ```bash
+   ionic cap add android
+   ```
+2. **Synchroniser les changements** :
+   ```bash
+   ionic cap sync android
+   ```
+3. **Exporter l'application** :
+   ```bash
+   ionic cap build android
+   ```
+
+#### Rendez-vous sur Android Studio pour lancer l'application ou build un APK.
 ## Aperçu
 
 - **Composants Ionic** : L'application exploite au maximum les composants d'Ionic pour une interface utilisateur moderne et responsive.
