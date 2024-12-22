@@ -22,15 +22,15 @@
       @if (stats | async; as stat){
         <ion-card-content>
           <ion-grid>
-            <ion-row>
-              <ion-col size="6">
+            <ion-row class="stat-row">
+              <ion-col size="6" class="stat-col">
                 <ion-chip color="success">
                   <ion-icon name="trophy-outline"></ion-icon>
-                  <ion-label>Matchs joués</ion-label>
+                  <ion-label>Matchs</ion-label>
                 </ion-chip>
                 <h2>{{ stat.totalMatchs }}</h2>
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="6" class="stat-col">
                 <ion-chip color="primary">
                   <ion-icon name="stats-chart-outline"></ion-icon>
                   <ion-label>Victoire (%)</ion-label>
@@ -38,15 +38,15 @@
                 <h2>{{ stat.victoirePourcentage | number:'1.0-2'}}%</h2>
               </ion-col>
             </ion-row>
-            <ion-row>
-              <ion-col size="6">
+            <ion-row class="stat-row">
+              <ion-col size="6" class="stat-col">
                 <ion-chip color="warning">
                   <ion-icon name="tennisball-outline"></ion-icon>
-                  <ion-label>Total Aces</ion-label>
+                  <ion-label>Aces</ion-label>
                 </ion-chip>
                 <h2>{{ stat.totalAces }}</h2>
               </ion-col>
-              <ion-col size="6">
+              <ion-col size="6" class="stat-col">
                 <ion-chip color="danger">
                   <ion-icon name="close-circle-outline"></ion-icon>
                   <ion-label>Double fautes</ion-label>
@@ -76,7 +76,7 @@
     } @else{
       @if(stats | async; as stat){
         <ion-card-content>
-          <ion-progress-bar value="{{ stat.pourcentagePremierService / 100 }}" color="tertiary"></ion-progress-bar>
+          <ion-progress-bar value="{{ stat.pourcentagePremierService / 100 }}" color="tertiary" class="progress-bar-custom"></ion-progress-bar>
           <p>Pourcentage de 1er service : {{ stat.pourcentagePremierService | number:'1.0-2'}}%</p>
         </ion-card-content>
       }
@@ -104,16 +104,11 @@
         <ion-item *ngFor="let match of derniersMatchs | async">
           <ion-label>
             <h3>{{ match.adversaire }}</h3>
-            {{match.resultat.score1stSet?.domicile}} - {{match.resultat.score1stSet?.visiteur}}
-            {{match.resultat.score2ndSet?.domicile}} - {{match.resultat.score2ndSet?.visiteur}}
-            {{match.resultat.score3rdSet?.domicile}} - {{match.resultat.score3rdSet?.visiteur}}
-            {{match.resultat.score4thSet?.domicile}} - {{match.resultat.score4thSet?.visiteur}}
-            {{match.resultat.score5thSet?.domicile}} - {{match.resultat.score5thSet?.visiteur}}
             <p>{{ match.date | date:'dd/MM/yyyy' }} - {{ match.surface }}</p>
           </ion-label>
           @if(match.resultat.forfait){
             <ion-badge color="warning">F</ion-badge>
-          } @else if (match.resultat.issue === 'victoire'){
+          } @else if (match.resultat.issue === 'Victoire'){
             <ion-badge color="success">V</ion-badge>
           } @else {
             <ion-badge color="danger">D</ion-badge>

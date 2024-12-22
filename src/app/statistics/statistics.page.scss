@@ -3,3 +3,22 @@
   justify-content: center;
   align-items: center;
 }
+
+.progress-bar-custom {
+  margin-top: 20px;
+  height: 10px;
+}
+
+.stat-row {
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-col {
+  text-align: center;
+}
+
+ion-chip {
+  margin-bottom: 10px;
+  white-space: nowrap;
+}

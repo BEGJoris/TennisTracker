@@ -95,8 +95,8 @@
           <ion-item>
             <ion-label position="floating">Issue du match</ion-label>
             <ion-select [formControl]="issueCtrl">
-              <ion-select-option value="victoire">Victoire</ion-select-option>
-              <ion-select-option value="défaite">Défaite</ion-select-option>
+              <ion-select-option value="Victoire">Victoire</ion-select-option>
+              <ion-select-option value="Défaite">Défaite</ion-select-option>
               <ion-note color="danger">
                 {{ getFormControlErrorText(issueCtrl) }}
               </ion-note>
@@ -139,8 +139,10 @@
                   <ion-input
                     type="number"
                     formControlName="visiteur"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm1!.get('visiteur')!)}}
+                  </ion-note>
                 </ion-col>
               </ion-row>
 
@@ -150,15 +152,19 @@
                   <ion-input
                     type="number"
                     formControlName="domicile"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm2!.get('domicile')!)}}
+                  </ion-note>
                 </ion-col>
                 <ion-col size="4">
                   <ion-input
                     type="number"
                     formControlName="visiteur"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm2!.get('visiteur')!)}}
+                  </ion-note>
                 </ion-col>
               </ion-row>
 
@@ -169,15 +175,19 @@
                   <ion-input
                     type="number"
                     formControlName="domicile"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm3!.get('domicile')!)}}
+                  </ion-note>
                 </ion-col>
                 <ion-col size="4">
                   <ion-input
                     type="number"
                     formControlName="visiteur"
-                    placeholder="0"
                   ></ion-input>
+                  <ion-note color="danger">
+                    {{ getFormControlErrorText(scoreForm3!.get('visiteur')!)}}
+                  </ion-note>
                 </ion-col>
               </ion-row>
 
@@ -188,15 +198,19 @@
                     <ion-input
                       type="number"
                       formControlName="domicile"
-                      placeholder="0"
                     ></ion-input>
+                    <ion-note color="danger">
+                      {{ getFormControlErrorText(scoreForm4!.get('domicile')!)}}
+                    </ion-note>
                   </ion-col>
                   <ion-col size="4">
                     <ion-input
                       type="number"
                       formControlName="visiteur"
-                      placeholder="0"
                     ></ion-input>
+                    <ion-note color="danger">
+                      {{ getFormControlErrorText(scoreForm4!.get('visiteur')!)}}
+                    </ion-note>
                   </ion-col>
                 </ion-row>
 
@@ -208,6 +222,9 @@
                       formControlName="domicile"
                       placeholder="0"
                     ></ion-input>
+                    <ion-note color="danger">
+                      {{ getFormControlErrorText(scoreForm5!.get('domicile')!)}}
+                    </ion-note>
                   </ion-col>
                   <ion-col size="4">
                     <ion-input
@@ -215,6 +232,9 @@
                       formControlName="visiteur"
                       placeholder="0"
                     ></ion-input>
+                    <ion-note color="danger">
+                      {{ getFormControlErrorText(scoreForm5!.get('visiteur')!)}}
+                    </ion-note>
                   </ion-col>
                 </ion-row>
               }

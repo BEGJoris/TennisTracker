@@ -113,11 +113,10 @@ export class MatchService {
   getStats():Observable<Statistics>{
     this.setLoadingStatus(true);
     return this.matchs$.pipe(
-      delay(1000),
       map((matchs:Match[])=>{
         return {
           totalMatchs:matchs.length,
-          victoirePourcentage:matchs.filter(match=>match.resultat.issue==="victoire").length*100/matchs.length,
+          victoirePourcentage:matchs.filter(match=>match.resultat.issue==="Victoire").length*100/matchs.length,
           totalAces:matchs.reduce((total,match)=>total+match.aces,0),
           totalDoubleFautes:matchs.reduce((total,match)=>total+match.doubleFautes,0),
           pourcentagePremierService:matchs.reduce((total,match)=>total+match.pourcentagePremierService,0)/matchs.length,

@@ -1,20 +1,32 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Matchs</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>🎾 Liste des Matchs</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding" @listAnimation>
+  @if (loading$ | async) {
+    <ion-spinner color="primary"></ion-spinner>
+  }
 
-  <ion-spinner *ngIf="loading$ | async"></ion-spinner>
-    <ion-card *ngFor="let match of matchs$ | async">
+  @for(match of matchs$ | async; track match.id) {
+    <ion-card class="match-card">
       <ion-card-header [routerLink]="match.id.toString()">
-        <ion-card-title>{{ match.adversaire }}</ion-card-title>
-        <ion-card-subtitle>{{ match.date | date:'dd/MM/yyyy' }}</ion-card-subtitle>
+        <ion-card-title class="adversaire-name">{{ match.adversaire }}</ion-card-title>
+        <ion-card-subtitle class="match-date">{{ match.date | date:'dd/MM/yyyy' }}</ion-card-subtitle>
       </ion-card-header>
+
+      <ion-card-content [routerLink]="match.id.toString()">
+        <p class="match-details">Surface: {{ match.surface }}</p>
+        <p class="match-details">Résultat: {{ match.resultat.issue }}</p>
+      </ion-card-content>
+
       <ion-footer>
         <ion-buttons slot="end">
-          <ion-button color="primary" [routerLink]="['edit', match.id]">
+          <ion-button color="tertiary" [routerLink]="match.id.toString()">
+            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button color="warning" [routerLink]="['edit', match.id]">
             <ion-icon name="create-outline" slot="icon-only"></ion-icon>
           </ion-button>
           <ion-button color="danger" (click)="onDelete(match.id)">
@@ -23,6 +35,7 @@
         </ion-buttons>
       </ion-footer>
     </ion-card>
+  }
   @if (!(matchs$ | async)?.length) {
     <ion-card>
       <ion-card-header>
@@ -34,5 +47,4 @@
     <ion-icon name="add-circle-outline" slot="start"></ion-icon>
     Ajouter un Match
   </ion-button>
-
 </ion-content>

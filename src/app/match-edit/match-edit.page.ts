@@ -68,7 +68,7 @@ export class MatchEditPage implements OnInit {
     });
     this.forfaitCtrl= this._formBuilder.control(false);
     this.setsCtrl= this._formBuilder.control(3,[Validators.required,Validators.pattern('[3|5]')]);
-    this.issueCtrl= this._formBuilder.control("victoire", [Validators.required]);
+    this.issueCtrl= this._formBuilder.control("Victoire", [Validators.required]);
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
       visiteur: [0, [Validators.min(0),Validators.max(7),Validators.required]],

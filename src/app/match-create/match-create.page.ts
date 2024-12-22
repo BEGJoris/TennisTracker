@@ -67,7 +67,7 @@ export class MatchCreatePage implements OnInit{
     });
     this.forfaitCtrl= this._formBuilder.control(false);
     this.setsCtrl= this._formBuilder.control(null,[Validators.required,Validators.pattern('[3|5]')]);
-    this.issueCtrl= this._formBuilder.control("victoire", [Validators.required]);
+    this.issueCtrl= this._formBuilder.control("Victoire", [Validators.required]);
     this.scoreForm1 = this._formBuilder.group({
       domicile: [0, [Validators.min(0),Validators.max(7),Validators.required]],
       visiteur: [0, [Validators.min(0),Validators.max(7),Validators.required]],
@@ -177,7 +177,7 @@ export class MatchCreatePage implements OnInit{
     this.resultatForm.reset()
 
       // Remettre les valeurs par défaut pour les contrôles spécifiques
-    this.issueCtrl.setValue('victoire');
+    this.issueCtrl.setValue('Victoire');
     this.setsCtrl.setValue(3);
     this.forfaitCtrl.setValue(false);
 

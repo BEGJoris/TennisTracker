@@ -1,24 +1,52 @@
-ion-card-title {
-  color: #4caf50;
-  font-weight: bold;
-}
-
-ion-card-subtitle {
-  font-size: 0.9rem;
-  color: #888;
-}
-
-ion-card-content {
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-ion-card-footer {
+.loading-container {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.match-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.match-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.adversaire-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--ion-color-primary);
+}
+
+.match-date {
+  font-size: 1rem;
+  color: var(--ion-color-medium);
+}
+
+.match-details {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-dark);
+}
+
+.no-match-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.no-match-image {
+  width: 150px;
+  margin-bottom: 20px;
 }
 
 ion-button {
-  --padding-start: 10px;
-  --padding-end: 10px;
+  margin-top: 10px;
 }
